@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import com.github.juliherms.cloudstorage.service.AuthenticationService;
 
 /**
- * This class responstible to enable and configure spring security
+ * This class responsible to enable and configure spring security
  * @author jlv
  *
  */

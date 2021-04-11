@@ -29,6 +29,11 @@ public class UserService {
 		return userMapper.getUser(username) == null;
 	}
 
+	/**
+	 * Method responsible to create user and return your id
+	 * @param user
+	 * @return
+	 */
 	public int createUser(User user) {
 		
 		SecureRandom random = new SecureRandom();
@@ -40,6 +45,11 @@ public class UserService {
 				user.getLastName()));
 	}
 
+	/**
+	 * Get user by user name
+	 * @param username
+	 * @return
+	 */
 	public User getUser(String username) {
 		return userMapper.getUser(username);
 	}
