@@ -16,9 +16,19 @@ import com.github.juliherms.cloudstorage.model.User;
 @Mapper
 public interface UserMapper {
 
+	/**
+	 * Method responsible to find user by username
+	 * @param username
+	 * @return
+	 */
 	@Select("SELECT * FROM USERS WHERE username = #{username}")
 	User getUser(String username);
 
+	/**
+	 * Method responsible to insert user in the system.
+	 * @param user
+	 * @return
+	 */
 	@Insert("INSERT INTO USERS (username, salt, password, firstname, lastname) VALUES(#{username}, #{salt}, #{password}, #{firstName}, #{lastName})")
 	@Options(useGeneratedKeys = true, keyProperty = "userId")
 	int insert(User user);
