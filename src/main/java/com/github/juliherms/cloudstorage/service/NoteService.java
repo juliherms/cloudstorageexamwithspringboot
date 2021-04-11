@@ -39,4 +39,44 @@ public class NoteService {
 		return noteMapper.getNotesByUserId(1);
 	}
 
+	/**
+	 * Method responsible to update note
+	 * 
+	 * @param note
+	 * @param userId
+	 * @return
+	 */
+	public int update(Note note, Integer userId) {
+
+		// check exist note
+		Note existing = noteMapper.getNoteById(note.getNoteId());
+
+		if (existing.getNoteId().equals(userId))
+			return noteMapper.update(note);
+		else
+			return 0;
+	}
+
+	/**
+	 * Method responsible to delete note
+	 * 
+	 * @param id
+	 * @param userId
+	 * @return
+	 */
+	public int delete(Integer id, Integer userId) {
+		return noteMapper.delete(id, userId);
+	}
+
+	/**
+	 * This method responsible to check exist note
+	 * @param note
+	 * @param userId
+	 * @return
+	 */
+	public boolean exists(Note note, Integer userId) {
+		Note returnNote = noteMapper.getNoteByTitleAndDescription(note.getNoteTitle(), note.getNoteDescription(),
+				userId);
+		return returnNote != null;
+	}
 }

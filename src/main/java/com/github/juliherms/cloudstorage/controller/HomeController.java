@@ -10,6 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.github.juliherms.cloudstorage.model.Note;
 import com.github.juliherms.cloudstorage.service.NoteService;
 
+/**
+ * This class responsible to code behind for home page
+ * 
+ * @author jlv
+ *
+ */
 @Controller
 @RequestMapping("/home")
 public class HomeController {

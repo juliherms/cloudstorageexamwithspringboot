@@ -61,4 +61,14 @@ public interface NoteMapper {
 	 */
 	@Delete("DELETE FROM NOTES WHERE noteid = #{noteId} AND userid = #{userId}")
 	int delete(Integer noteId, Integer userId);
+	
+	/**
+	 * Method responsible to get note by title,description and user
+	 * @param noteTitle
+	 * @param noteDescription
+	 * @param userId
+	 * @return
+	 */
+	@Select("SELECT * FROM NOTES WHERE notetitle=#{noteTitle} AND notedescription=#{noteDescription} AND userid = #{userId}")
+    Note getNoteByTitleAndDescription(String noteTitle, String noteDescription, Integer userId);
 }
