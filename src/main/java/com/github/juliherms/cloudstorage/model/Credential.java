@@ -1,7 +1,7 @@
 package com.github.juliherms.cloudstorage.model;
 
 /**
- * Thi class responsible to represents credential access in the system
+ * This class responsible to represents credential access in the system
  * @author jlv
  *
  */
