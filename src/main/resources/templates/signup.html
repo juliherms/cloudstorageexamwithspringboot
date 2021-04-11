@@ -11,33 +11,44 @@
     <body class="p-3 mb-2 bg-light text-black">
         <div class="container justify-content-center w-50 p-3" style="background-color: #eeeeee; margin-top: 5em;">
             <div class="form-group">
-                <label><a>Back to Login</a></label>
+            	<!-- Hyperlink to back login -->
+                <label><a th:href="@{/login}">Back to Login</a></label>
             </div>
 
             <h1 class="display-5">Sign Up</h1>
             
-            <form action="#" method="POST">
-                <div class="alert alert-dark">
+            <!-- Form action to signup - create user -->
+            <form action="#" th:action="@{/signup}" method="POST">
+            
+            	<!-- Display success message -->
+                <div class="alert alert-dark" th:if="${signupSuccess}">
                     You successfully signed up! Please continue to the <a>login</a> page.
                 </div>
-                <div class="alert alert-danger">
+                
+                <!-- Display error message -->
+                <div class="alert alert-danger" th:if="${signupError}">
                     <span>Example Signup Error Message</span>
                 </div>
+                
                 <div class="form-row">
+                	<!-- fistname -->
                     <div class="form-group col-md-6">
                         <label for="inputFirstName">First Name</label>
                         <input type="input" name="firstName" class="form-control" id="inputFirstName" placeholder="Enter First Name" maxlength="20" required>
                     </div>
+                    <!-- lastname -->
                     <div class="form-group col-md-6">
                         <label for="inputLastName">Last Name</label>
                         <input type="input" name="lastName" class="form-control" id="inputLastName" placeholder="Enter Last Name" maxlength="20" required>
                     </div>
                 </div>
                 <div class="form-row">
+                	<!-- username -->
                     <div class="form-group col-md-6">
                         <label for="inputUsername">Username</label>
                         <input type="input" name="username" class="form-control" id="inputUsername" placeholder="Enter Username" maxlength="20" required>
                     </div>
+                    <!-- password -->
                     <div class="form-group col-md-6">
                         <label for="inputPassword">Password</label>
                         <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Enter Password" maxlength="20" required>
