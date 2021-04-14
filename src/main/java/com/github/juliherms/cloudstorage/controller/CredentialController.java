@@ -43,6 +43,13 @@ public class CredentialController {
 		this.messageSource = messageSource;
 	}
 	
+	/**
+	 * Method responsible to save credential in the system
+	 * @param credential
+	 * @param authentication
+	 * @param ra
+	 * @return
+	 */
 	@PostMapping("/save")
 	public String saveCredential(@ModelAttribute("credential") Credential credential, Authentication authentication,
 			RedirectAttributes ra) {
@@ -60,6 +67,7 @@ public class CredentialController {
 			errorMessage = messageSource.getMessage("credentials-tab.credential-empty-form-msg", null,
 					Locale.getDefault());
 			ra.addFlashAttribute(ERROR_MESSAGE, errorMessage);
+			
 			logger.error("Credential error: " + errorMessage + " userid = " + userId);
 			return "redirect:/home#nav-credentials";
 			
@@ -72,6 +80,7 @@ public class CredentialController {
 			return "redirect:/home#nav-credentials";
 			
 		}
+		
 		if (credential.getCredentialId() == null) {
 			
 			int noteId;
@@ -88,6 +97,7 @@ public class CredentialController {
 				ra.addFlashAttribute(SUCCESS_MESSAGE, successMessage);
 				ra.addFlashAttribute("credentials", service.getAllByUserId(user.getUserId()));
 			}
+			
 		} else {
 			
 			credential.setUserId(user.getUserId());

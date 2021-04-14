@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author jlv
  *
  */
-
 @Controller
 @RequestMapping("/login")
 public class LoginController {

@@ -35,8 +35,13 @@ public class NoteService {
 		return noteMapper.insert(new Note(null, note.getNoteTitle(), note.getNoteDescription(), note.getUserId()));
 	}
 
-	public List<Note> getNotes() {
-		return noteMapper.getNotesByUserId(1);
+	/**
+	 * Method responsible to list notes by user
+	 * @param userId
+	 * @return
+	 */
+	public List<Note> getNotes(Integer userId) {
+		return noteMapper.getNotesByUserId(userId);
 	}
 
 	/**
