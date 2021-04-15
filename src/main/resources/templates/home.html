@@ -223,6 +223,16 @@
                 $('#credential-password').val(password ? password : '');
                 $('#credentialModal').modal('show');
             }
+            
+            // For active tab
+            var url = window.location.href;
+            var activeTab = url.substring(url.indexOf("#") + 1);
+            if (!activeTab.endsWith("home")) {
+                $(".tab-pane").removeClass("show active in");
+                $(".nav-link").removeClass("active");
+                $("#" + activeTab).addClass("show active in");
+                $("#" + activeTab + "-tab").addClass("active");
+            }
         </script>
     </body>
 </html>
