@@ -98,7 +98,8 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="#" th:action="@{/home/note}" method="POST">
+                                    	<!-- Note form -->
+                                        <form action="#" th:action="@{notes/save}" method="POST">
                                             <input type="hidden" name="noteId" id="note-id">
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">Title</label>
@@ -110,7 +111,9 @@
                                             </div>
                                             <button id="noteSubmit" type="submit" class="d-none"></button>
                                         </form>
+                                        <!-- End Note Form -->
                                     </div>
+                                    <!--  Button -->
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                         <button type="button" class="btn btn-primary" onclick="$('#noteSubmit').click();">Save changes</button>

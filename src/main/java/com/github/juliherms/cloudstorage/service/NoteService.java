@@ -37,6 +37,7 @@ public class NoteService {
 
 	/**
 	 * Method responsible to list notes by user
+	 * 
 	 * @param userId
 	 * @return
 	 */
@@ -75,6 +76,7 @@ public class NoteService {
 
 	/**
 	 * This method responsible to check exist note
+	 * 
 	 * @param note
 	 * @param userId
 	 * @return

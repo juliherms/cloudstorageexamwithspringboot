@@ -19,7 +19,7 @@ import com.github.juliherms.cloudstorage.service.UserService;
  *
  */
 @Controller
-@RequestMapping("/home")
+@RequestMapping("/")
 public class HomeController {
 
 	private final NoteService noteService;
@@ -29,7 +29,7 @@ public class HomeController {
 
 	public HomeController(NoteService noteService, UserService userService, FileService fileService,
 			CredentialService credentialService) {
-		
+
 		this.noteService = noteService;
 		this.userService = userService;
 		this.fileService = fileService;
@@ -38,6 +38,7 @@ public class HomeController {
 
 	/**
 	 * Method responsible to display page home in the systems
+	 * 
 	 * @param authentication
 	 * @param model
 	 * @return
@@ -47,7 +48,7 @@ public class HomeController {
 
 		User user = userService.getUser(authentication.getName());
 
-		//load data for user
+		// load data for user
 		if (user != null) {
 			Integer userId = user.getUserId();
 			model.addAttribute("files", fileService.getFilesByUserId(userId));
