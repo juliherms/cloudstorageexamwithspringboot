@@ -144,15 +144,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>
-                                        <button type="button" class="btn btn-success">Edit</button>
-                                        <a class="btn btn-danger">Delete</a>
-                                    </td>
-                                    <th scope="row">Example Credential URL</th>
-                                    <td>Example Credential Username</td>
-                                    <td>Example Credential Password</td>
-                                </tr>
+                                	<!-- List credentials -->
+                                	<tr th:each="credential:${credentials}">
+                                    	<td>
+                                        	<button type="button" class="btn btn-success credential-edit-button"
+                                                th:onclick="javascript: showCredentialModal([[${credential.credentialId}]], [[${credential.url}]], [[${credential.username}]], [[${credential.decryptedPassword}]])">
+                                            	Edit
+                                        	</button>
+                                        	<a class="btn btn-danger credential-delete-button" th:href="@{credentials/delete/{id}(id=${credential.credentialId})}">Delete</a>
+                                    	</td>
+                                    	<td class="url-print" th:text="${credential.url}">Example Credential URL </td>
+                                    	<td class="username-print" th:text="${credential.username}">Example Credential Username</td>
+                                    	<td class="password-print" th:text="${credential.password}">********</td>
+                                	</tr>
                                 </tbody>
                             </table>
                         </div>
@@ -167,7 +171,8 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="#" method="POST">
+                                    	<!-- Form credential -->
+                                        <form th:action="@{/credentials/save}" method="POST">
                                             <input type="hidden" name="credentialId" id="credential-id">
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">URL</label>
