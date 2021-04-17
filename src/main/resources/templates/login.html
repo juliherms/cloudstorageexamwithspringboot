@@ -4,37 +4,34 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/bootstrap.min.css}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 
         <title>Login</title>
     </head>
     <body class="p-3 mb-2 bg-light text-black">
         <div class="container justify-content-center w-25 p-3" style="background-color: #eeeeee; margin-top: 5em;">
             <h1 class="display-5">Login</h1>
-            <!-- action form to authenticate -->
             <form action="#" th:action="@{/login}" method="POST">
-            
-            	<!-- Display message error -->
-                <div th:if="${param.error}" class="alert alert-danger">
-                    Invalid username or password
+                <div id="error-msg" th:if="${param.error}" class="alert alert-danger">
+                    <span th:text="#{login-page.error-msg}"></span>
                 </div>
-                
-                <!-- Display information message  -->
-                <div th:if="${param.logout}" class="alert alert-dark">
-                    You have been logged out
+                <div id="logout-msg" th:if="${param.logout}" class="alert alert-dark">
+                    <span th:text="#{login-page.logout-msg}"></span>
+                </div>
+                <div th:if="${signupSuccess}" class="alert alert-success">
+                    <span id="signup-success-msg"  th:text="#{login-page.signup-success-msg}"></span>
                 </div>
                 <div class="form-group">
                     <label for="inputUsername">Username</label>
-                    <input type="input" class="form-control" name="username" id="inputUsername" placeholder="Enter Username" maxlength="20" required>
+                    <input type="text" class="form-control" name="username" id="inputUsername" placeholder="Enter Username" maxlength="20" required>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword">Password</label>
                     <input type="password" class="form-control" name="password" id="inputPassword" placeholder="Enter Password" maxlength="20" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Login</button>
+                <button id="submit-button" type="submit" class="btn btn-primary">Login</button>
             </form>
 
-			<!-- add hyperlink to signup page -->
             <div class="form-group" style="margin-top: 0.5em;">
                 <label><a id="signup-link" th:href="@{/signup}">Click here to sign up</a></label>
             </div>

@@ -29,4 +29,6 @@ public class LoginController {
 	public String submitCredentials() {
 		return "login";
 	}
+	
+	
 }
