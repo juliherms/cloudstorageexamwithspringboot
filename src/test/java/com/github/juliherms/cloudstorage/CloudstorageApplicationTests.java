@@ -21,8 +21,10 @@ import com.github.juliherms.cloudstorage.page.HomePage;
 import com.github.juliherms.cloudstorage.page.LoginPage;
 import com.github.juliherms.cloudstorage.page.NotePage;
 import com.github.juliherms.cloudstorage.page.SignupPage;
-
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /**
  * This class responsible to set initial setup to test case
@@ -37,11 +39,14 @@ class CloudstorageApplicationTests {
 	@LocalServerPort
 	private int port;
 
+	public String baseURL;
+
 	private WebDriver driver;
 	private HomePage homePage;
 	private NotePage notePage;
 	private LoginPage loginPage;
 	private CredentialPage credentialPage;
+	private SignupPage signupPage;
 
 	@BeforeAll
 	static void beforeAll() {
@@ -51,10 +56,12 @@ class CloudstorageApplicationTests {
 	@BeforeEach
 	public void beforeEach() {
 		this.driver = new ChromeDriver();
+		baseURL = baseURL = "http://localhost:" + port;
 		this.homePage = new HomePage(driver);
 		this.notePage = new NotePage(driver);
 		this.loginPage = new LoginPage(driver);
 		this.credentialPage = new CredentialPage(driver);
+		this.signupPage = new SignupPage(driver);
 	}
 
 	@AfterEach
@@ -65,90 +72,85 @@ class CloudstorageApplicationTests {
 	}
 
 	/**
-	 * Tests that "/" and "/home" urls redirects to "/login" page and unauthorized
-	 * user can only access "/login" and "/signup" pages
+	 * This method responsible to test access page home without login
 	 */
 	@Test
 	@Order(1)
-	public void unauthorizedUserTest() {
-		driver.get("http://localhost:" + this.port + "/home");
+	public void testUnauthorizedUserSuccess() {
+
+		//step 1 - access direct home without login
+		driver.get(baseURL + "/home");
 		assertEquals("Login", driver.getTitle());
-		driver.get("http://localhost:" + this.port);
+
+		//step 2 - access default web page without login
+		driver.get(baseURL);
 		assertEquals("Login", driver.getTitle());
-		driver.get("http://localhost:" + this.port + "/signup");
-		assertEquals("Sign Up", driver.getTitle());
-		driver.get("http://localhost:" + this.port + "/login");
+
+		//step 3 - access login web page
+		driver.get(baseURL + "/login");
 		assertEquals("Login", driver.getTitle());
 	}
 
 	/**
-	 * Tests user signup, login, if "/home" page access is available after login,
-	 * logout and if "/home" page access is restricted after logout
+	 * This method responsible to test a login with a new created user
 	 */
-
 	@Test
 	@Order(2)
-	public void authorizedUserTest() {
-		LoginPage loginPage = new LoginPage(driver);
-		HomePage homePage = new HomePage(driver);
-		// signup new user
-		driver.get("http://localhost:" + this.port);
-		loginPage.clickSignupLink();
-		SignupPage signupPage = new SignupPage(driver);
-		signupPage.signup("fred", "vasconcelos", "fred", "fred");
-		String signupSuccessMessage = loginPage.getSignupSuccessMessage();
-		assertEquals("Login", driver.getTitle());
-		assertEquals("You successfully signed up!", signupSuccessMessage);
+	public void testAuthorizedUserSuccess() {
 
-		// login and verify that the home page is accessible
-		loginPage.login("fred", "fred");
+		//step 1 - create a new user
+		createUser();
+
+		//step 2 - login with a new user
+		loginUser();
+
+		//step 3 - user was redirect to page home
 		assertEquals("Home", driver.getTitle());
-
-		// sign out returns to Login page
-		homePage.logout();
-		assertEquals("Login", driver.getTitle());
-
-		// verify that the home page is no longer accessible
-		driver.get("http://localhost:" + this.port + "/home");
-		assertEquals("Login", driver.getTitle());
-		driver.get("http://localhost:" + this.port);
-		assertEquals("Login", driver.getTitle());
 	}
 
 	/**
-	 * Note CRUD test A default user was created with the help of DataLoader.java
-	 * class
+	 * This method responsible to test add note
 	 */
-
 	@Test
 	@Order(3)
-	public void addNoteTest() {
-		driver.get("http://localhost:" + this.port + "/login");
-		loginPage.login("admin", "admin");
+	public void testAddNoteSuccess() {
+
+		//step 1 - create and login user - pre req
+		createUser();
+		loginUser();
+
+		driver.get("http://localhost:" + port + "/home");
+		WebDriverWait wait = new WebDriverWait(driver, 2000);
+		wait.until(driver -> driver.findElement(By.id("logout")));
+
 		homePage.navToNoteTab();
-		String title = "note title";
-		String description = "note description";
-		notePage.clickAddNoteButton();
-		notePage.submitNote(title, description);
-		String noteTitlePrint = notePage.getNoteTitle();
-		String noteDescriptionPrint = notePage.getNoteDescription();
-		String noteSaveSuccessMsg = notePage.getNoteSuccessMsg();
-		assertEquals("Note was saved.", noteSaveSuccessMsg);
-		assertEquals(title, noteTitlePrint);
-		assertEquals(description, noteDescriptionPrint);
+
+		wait.until(driver -> driver.findElement(By.id("new-note")));
+
+		if (driver instanceof JavascriptExecutor) {
+			((JavascriptExecutor)driver).executeScript("showNoteModal();");
+		}
+
+		createNote();
+
+		driver.get("http://localhost:" + port + "/home");
+		wait.until(driver -> driver.findElement(By.id("logout")));
+
+		homePage.navToNoteTab();
+
 	}
 
 	@Test
 	@Order(4)
-	public void editNoteTest() {
-		driver.get("http://localhost:" + this.port + "/login");
+	public void testEditNoteSuccess() {
+		driver.get(baseURL + "/login");
 		loginPage.login("admin", "admin");
 		homePage.navToNoteTab();
 
 		notePage.clickEditNoteButton();
 		String editedTitle = "Testing";
-		String editedDescription = "Your tech lead trusts you to do a good job, "
-				+ "but testing is important whether you're an excel number-cruncher or a full-stack coding superstar!";
+		String editedDescription = "Description teste one, "
+				+ "Description test two";
 		notePage.updateNote(editedTitle, editedDescription);
 		String editedNoteTitlePrint = notePage.getNoteTitle();
 		String editedNoteDescriptionPrint = notePage.getNoteDescription();
@@ -160,8 +162,8 @@ class CloudstorageApplicationTests {
 
 	@Test
 	@Order(5)
-	public void deleteNoteTest() {
-		driver.get("http://localhost:" + this.port + "/login");
+	public void testDeleteNoteSuccess() {
+		driver.get(baseURL + "/login");
 		loginPage.login("admin", "admin");
 		homePage.navToNoteTab();
 		notePage.clickDeleteNoteButton();
@@ -171,20 +173,15 @@ class CloudstorageApplicationTests {
 		assertEquals("There is no notes currently, please add some...", noNotes);
 	}
 
-	/**
-	 * Credential CRUD test A default user was created with the help of
-	 * DataLoader.java class
-	 */
-
 	@Test
 	@Order(6)
-	public void addCredentialTest() {
-		driver.get("http://localhost:" + this.port + "/login");
+	public void testAddCredentialSuccess() {
+		driver.get(baseURL + "/login");
 		loginPage.login("admin", "admin");
 		homePage.navToCredentialTab();
-		String url = "https://classroom.udacity.com";
-		String username = "islamgaliev@mail.ru";
-		String password = "WhyAlwaysMe202104";
+		String url = "www.google.com";
+		String username = "userAdmin";
+		String password = "P0wsrd01";
 		credentialPage.clickAddCredentialButton();
 		credentialPage.submitCredential(url, username, password);
 		String urlPrint = credentialPage.getUrlPrint();
@@ -199,17 +196,17 @@ class CloudstorageApplicationTests {
 
 	@Test
 	@Order(7)
-	public void editCredentialTest() {
-		driver.get("http://localhost:" + this.port + "/login");
+	public void testEditCredentialSucess() {
+		driver.get(baseURL + "/login");
 		loginPage.login("admin", "admin");
 		homePage.navToCredentialTab();
-		String password = "WhyAlwaysMe202104";
+		String password = "1234";
 		credentialPage.clickEditButton();
 		String passwordInputValue = credentialPage.getPasswordInput();
 		assertEquals(password, passwordInputValue);
-		String updatedUrl = "https://classroom.udacity.com/me";
-		String updatedUsername = "islamgaliev@gmail.com";
-		String updatedPassword = "CallMeBaby202005";
+		String updatedUrl = "www.pudim.com";
+		String updatedUsername = "vasconcelos@gmail.com";
+		String updatedPassword = "test";
 		credentialPage.updateCredential(updatedUrl, updatedUsername, updatedPassword);
 		String urlPrint = credentialPage.getUrlPrint();
 		String usernamePrint = credentialPage.getUsernamePrint();
@@ -223,8 +220,8 @@ class CloudstorageApplicationTests {
 
 	@Test
 	@Order(8)
-	public void deleteCredentialTest() {
-		driver.get("http://localhost:" + this.port + "/login");
+	public void testDeleteCredentialSuccess() {
+		driver.get(baseURL + "/login");
 		loginPage.login("admin", "admin");
 		homePage.navToCredentialTab();
 		credentialPage.clickDeleteButton();
@@ -233,5 +230,22 @@ class CloudstorageApplicationTests {
 		assertEquals("There is no credentials currently, please add some...", noCredentialsMsg);
 		assertEquals("Credential was deleted.", deleteSuccessMsg);
 		homePage.logout();
+	}
+
+	private void createUser() {
+		driver.get(baseURL + "/signup");
+		signupPage = new SignupPage(driver);
+		signupPage.signup("fred","vasconcelos","fred","fred");
+	}
+
+	private void loginUser() {
+		driver.get(baseURL + "/login");
+		loginPage = new LoginPage(driver);
+		loginPage.login("fred","fred");
+	}
+
+	private void createNote() {
+		notePage = new NotePage(driver);
+		notePage.submitNote("Note teste 1","Note description test");
 	}
 }

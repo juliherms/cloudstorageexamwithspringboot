@@ -11,7 +11,7 @@
     <body class="p-3 mb-2 bg-light text-black">
         <div class="container">
             <div id="logoutDiv">
-                 <a type="submit" id="logout-button" th:href="@{/logout}" class="btn btn-secondary float-right">Logout</a>
+                 <a type="submit" id="logout" th:href="@{/logout}" class="btn btn-secondary float-right">Logout</a>
             </div>
             <div id="contentDiv" style="clear: right;">
                 <nav style="clear: right;">
@@ -60,7 +60,7 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="nav-notes" role="tabpanel" aria-labelledby="nav-notes-tab">
-                        <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showNoteModal()">
+                        <button id="add-note-button" style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showNoteModal()">
                             + Add a New Note
                         </button>
 
