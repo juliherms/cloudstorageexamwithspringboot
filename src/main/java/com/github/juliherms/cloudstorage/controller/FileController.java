@@ -1,7 +1,6 @@
 package com.github.juliherms.cloudstorage.controller;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -88,7 +87,7 @@ public class FileController {
 			try {
 
 				uploadFile = new File(null, filename, fileUpload.getContentType(), filesize, user.getUserId(),
-						fileUpload.getBytes(), new Date(System.currentTimeMillis()));
+						fileUpload.getBytes());
 				fileId = fileService.upload(uploadFile);
 
 			} catch (IOException e) {
@@ -154,6 +153,7 @@ public class FileController {
 
 	/**
 	 * Method responsible to get file by id
+	 * 
 	 * @param id
 	 * @param authentication
 	 * @param response
@@ -167,7 +167,7 @@ public class FileController {
 
 		Integer userId = user.getUserId();
 		File file = fileService.getFileById(id, userId);
-		
+
 		if (file == null) {
 			ra.addFlashAttribute(ERROR_MESSAGE,
 					messageSource.getMessage("files-tab.file-download-error-msg", null, Locale.getDefault()));

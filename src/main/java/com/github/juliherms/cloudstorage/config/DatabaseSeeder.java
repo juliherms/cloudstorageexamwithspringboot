@@ -7,6 +7,11 @@ import org.springframework.stereotype.Component;
 import com.github.juliherms.cloudstorage.model.User;
 import com.github.juliherms.cloudstorage.service.UserService;
 
+/**
+ * This class responsible to load initial data in the system
+ * @author jlv
+ *
+ */
 @Component
 public class DatabaseSeeder implements ApplicationRunner {
 

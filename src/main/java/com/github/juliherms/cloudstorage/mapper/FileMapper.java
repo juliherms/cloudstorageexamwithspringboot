@@ -19,13 +19,14 @@ import com.github.juliherms.cloudstorage.model.File;
 @Mapper
 public interface FileMapper {
 
+	
 	/**
 	 * This method responsible to insert file
 	 * 
 	 * @param file
 	 * @return
 	 */
-	@Insert("INSERT INTO FILES (filename, contenttype, filesize, userid, filedata, uploadtime) VALUES(#{filename}, #{contentType}, #{fileSize}, #{userId}, #{fileData}, #{uploadTime})")
+	@Insert("INSERT INTO FILES (filename, contenttype, filesize, userid, filedata) VALUES (#{filename}, #{contentType}, #{fileSize}, #{userId}, #{fileData} )")
 	@Options(useGeneratedKeys = true, keyProperty = "fileId")
 	int insert(File file);
 

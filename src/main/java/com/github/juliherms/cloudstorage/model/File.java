@@ -1,9 +1,8 @@
 package com.github.juliherms.cloudstorage.model;
 
-import java.util.Date;
-
 /**
  * This class responsible to represents file access in the system
+ * 
  * @author jlv
  *
  */
@@ -15,22 +14,19 @@ public class File {
 	private Long fileSize;
 	private Integer userId;
 	private byte[] fileData;
-	private Date uploadTime;
 
 	public File() {
 
 	}
 
-	public File(Integer fileId, String filename, String contentType, Long fileSize, Integer userId, byte[] fileData,
-			Date uploadTime) {
-		
+	public File(Integer fileId, String filename, String contentType, Long fileSize, Integer userId, byte[] fileData) {
+
 		this.fileId = fileId;
 		this.filename = filename;
 		this.contentType = contentType;
 		this.fileSize = fileSize;
 		this.userId = userId;
 		this.fileData = fileData;
-		this.uploadTime = uploadTime;
 	}
 
 	public Integer getFileId() {
@@ -79,13 +75,5 @@ public class File {
 
 	public void setFileData(byte[] fileData) {
 		this.fileData = fileData;
-	}
-
-	public Date getUploadTime() {
-		return uploadTime;
-	}
-
-	public void setUploadTime(Date uploadTime) {
-		this.uploadTime = uploadTime;
 	}
 }
