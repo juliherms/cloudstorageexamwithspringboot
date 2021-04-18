@@ -47,6 +47,11 @@ public class NotePage {
 		noteSubmitButton.submit();
 	}
 
+	public void clearNote(){
+		noteTitleInput.clear();
+		noteDescriptionInput.clear();
+	}
+
 	public void updateNote(String title, String description) {
 		noteTitleInput.clear();
 		noteDescriptionInput.clear();

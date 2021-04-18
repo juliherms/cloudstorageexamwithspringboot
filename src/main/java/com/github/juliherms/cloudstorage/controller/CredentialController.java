@@ -127,7 +127,7 @@ public class CredentialController {
 	 * @return
 	 */
 	@GetMapping("/delete/{id}")
-	public String deleteNote(@PathVariable("id") Integer id, Authentication authentication, RedirectAttributes ra) {
+	public String delete(@PathVariable("id") Integer id, Authentication authentication, RedirectAttributes ra) {
 
 		// extract auth user
 		User user = getUserAuthenticated(authentication.getName());
