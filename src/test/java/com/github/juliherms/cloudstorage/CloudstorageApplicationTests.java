@@ -204,34 +204,8 @@ class CloudstorageApplicationTests {
 
 		homePage.navToNoteTab();
 
-
-
 		WebDriverWait wait3 = new WebDriverWait(driver, 2000);
 		wait2.until(ExpectedConditions.elementToBeClickable(By.id("add-note-button")));
-
-
-		String a = notePage.getNoteTitle();
-
-/*
-		wait.until(ExpectedConditions.elementToBeClickable(By.id("note-title"))).click();
-		notePage.updateNote("Note teste 2","Note description test 2");
-
-		WebDriverWait wait3 = new WebDriverWait(driver, 2000);
-		wait3.until(driver -> driver.findElement(By.id("logout")));
-
-
-
-		driver.get(baseURL + "/home");
-		wait.until(driver -> driver.findElement(By.id("logout")));
-
-		homePage.navToNoteTab();
-
-		WebDriverWait wait4 = new WebDriverWait(driver, 2000);
-		wait4.until(ExpectedConditions.elementToBeClickable(By.id("add-note-button")));
-
-		assertEquals("Note teste 2", notePage.getNoteTitle());
-		assertEquals("Note description test 2", notePage.getNoteDescription());
-*/
 
 	}
 
